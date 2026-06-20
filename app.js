@@ -83,12 +83,12 @@ function renderLesson(lesson) {
       <div class="card-body">
         <h3>${lesson.title}</h3>
         <p>${lesson.description}</p>
-        ${lesson.duration ? `<span class="duration">⏱ ${lesson.duration}</span>` : ''}
+        ${lesson.duration ? `<span class="duration"><i class="fa-regular fa-clock"></i> ${lesson.duration}</span>` : ''}
         ${lesson.concepts?.length ? `<div class="concepts">${lesson.concepts.map(c => `<span class="concept-tag">${c}</span>`).join('')}</div>` : ''}
-        ${lesson.resources?.length ? `<div class="resources">${lesson.resources.map(r => `<a href="${safeUrl(r.url)}" target="_blank" rel="noopener noreferrer">${r.label}</a>`).join('')}</div>` : ''}
+        ${lesson.resources?.length ? `<div class="resources">${lesson.resources.map(r => `<a href="${safeUrl(r.url)}" target="_blank" rel="noopener noreferrer">${r.label} <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`).join('')}</div>` : ''}
         ${hasNote
           ? `<textarea class="notes" data-id="${lesson.id}" placeholder="Your notes..."></textarea>`
-          : `<button class="add-notes-btn" data-id="${lesson.id}">+ Add notes</button>`
+          : `<button class="add-notes-btn" data-id="${lesson.id}"><i class="fa-solid fa-pencil"></i> Add notes</button>`
         }
       </div>
     </div>
@@ -119,7 +119,7 @@ function renderChallenge(c) {
         <h3>${c.title}</h3>
         <p>${c.description}</p>
         ${c.goal ? `<p class="goal"><strong>Goal:</strong> ${c.goal}</p>` : ''}
-        ${c.hints?.length ? `<details><summary>Hints (${c.hints.length})</summary><ul>${c.hints.map(h => `<li>${h}</li>`).join('')}</ul></details>` : ''}
+        ${c.hints?.length ? `<details><summary><i class="fa-regular fa-lightbulb"></i> Hints (${c.hints.length})</summary><ul>${c.hints.map(h => `<li>${h}</li>`).join('')}</ul></details>` : ''}
       </div>
     </div>
   `;
@@ -180,7 +180,7 @@ document.addEventListener('input', e => {
 document.getElementById('theme-btn').addEventListener('click', () => {
   state.theme = state.theme === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', state.theme);
-  document.getElementById('theme-btn').textContent = state.theme === 'dark' ? '☀️' : '🌙';
+  document.getElementById('theme-btn').innerHTML = state.theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
   saveState();
 });
 
@@ -212,7 +212,7 @@ document.getElementById('import-input').addEventListener('change', e => {
       state.activeFilters = new Set();
       saveState();
       document.documentElement.setAttribute('data-theme', state.theme);
-      document.getElementById('theme-btn').textContent = state.theme === 'dark' ? '☀️' : '🌙';
+      document.getElementById('theme-btn').innerHTML = state.theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
       renderAll();
     } catch(err) { alert('Invalid progress file: ' + err.message); }
     finally { e.target.value = ''; }

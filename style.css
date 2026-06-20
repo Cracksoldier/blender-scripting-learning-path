@@ -137,6 +137,10 @@ a.logo {
   color: var(--text);
   transition: border-color var(--transition);
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
 }
 
 .theme-btn:hover { border-color: var(--accent); }
@@ -290,10 +294,18 @@ main {
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
 }
 
 .resources a:hover {
   border-bottom-color: var(--accent);
+}
+
+.resources a .fa-arrow-up-right-from-square {
+  font-size: 0.6rem;
+  opacity: 0.7;
 }
 
 /* ── Difficulty badges ── */
@@ -433,6 +445,9 @@ details li {
   cursor: pointer;
   padding: 0;
   transition: color var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .add-notes-btn:hover {
@@ -461,6 +476,9 @@ details li {
   font-family: inherit;
   transition: border-color var(--transition), color var(--transition);
   user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
 }
 
 .site-footer button:hover,

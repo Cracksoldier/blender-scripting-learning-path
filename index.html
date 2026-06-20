@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <title>Blender Python Scripting — Learning Path</title>
   <script>
     try {
@@ -51,6 +52,7 @@
       padding: 6px 14px; border: 1px solid var(--border); border-radius: var(--radius);
       background: none; color: var(--text); cursor: pointer; font-size: 0.85rem;
       font-family: inherit; transition: border-color var(--transition), color var(--transition);
+      display: inline-flex; align-items: center; gap: 6px;
     }
     .lp-btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
     .lp-btn-primary {
@@ -84,6 +86,7 @@
       padding: 12px 28px; border: 1px solid var(--border); border-radius: var(--radius);
       background: none; color: var(--text); font-size: 1rem; font-family: inherit;
       cursor: pointer; text-decoration: none; transition: border-color var(--transition), color var(--transition);
+      display: inline-flex; align-items: center; gap: 8px;
     }
     .btn-hero-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
@@ -106,7 +109,7 @@
     /* ── Features ── */
     .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .feature-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
-    .feature-icon { font-size: 1.6rem; margin-bottom: 12px; display: block; }
+    .feature-icon { font-size: 1.6rem; margin-bottom: 12px; display: block; color: var(--accent); }
     .feature-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
     .feature-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.55; }
 
@@ -139,7 +142,7 @@
       <span>Blender Python Scripting</span>
     </div>
     <div class="lp-nav-actions">
-      <button id="theme-btn" class="lp-btn-ghost" aria-label="Toggle theme">☀️</button>
+      <button id="theme-btn" class="lp-btn-ghost" aria-label="Toggle theme"><i class="fa-solid fa-sun"></i></button>
       <a href="app.html" class="lp-btn-primary">Open App →</a>
     </div>
   </nav>
@@ -150,7 +153,7 @@
     <p class="hero-sub">From your first <code>bpy.ops</code> call to shipping installable add-ons and NumPy-powered tools — a structured path from beginner to expert.</p>
     <div class="hero-actions">
       <a href="app.html" class="btn-hero-primary" id="start-btn">Start Learning →</a>
-      <a href="#" class="btn-hero-secondary">★ Star on GitHub</a>
+      <a href="#" class="btn-hero-secondary"><i class="fa-solid fa-star"></i> Star on GitHub</a>
     </div>
   </section>
 
@@ -223,32 +226,32 @@
     <p class="lp-section-sub">A single HTML file — no install, no account, no build step. Open it and start learning.</p>
     <div class="features-grid">
       <div class="feature-card">
-        <span class="feature-icon">✅</span>
+        <span class="feature-icon"><i class="fa-solid fa-circle-check"></i></span>
         <h3>Progress tracking</h3>
         <p>Check off lessons and challenges as you complete them. Progress saves automatically to localStorage.</p>
       </div>
       <div class="feature-card">
-        <span class="feature-icon">📝</span>
+        <span class="feature-icon"><i class="fa-solid fa-pen-to-square"></i></span>
         <h3>Per-lesson notes</h3>
         <p>Add freeform notes to any lesson — links, snippets, reminders — persisted across sessions.</p>
       </div>
       <div class="feature-card">
-        <span class="feature-icon">💾</span>
+        <span class="feature-icon"><i class="fa-solid fa-floppy-disk"></i></span>
         <h3>Export &amp; Import</h3>
         <p>Save your progress as a JSON file and restore it on any device — great for syncing between machines.</p>
       </div>
       <div class="feature-card">
-        <span class="feature-icon">🔍</span>
+        <span class="feature-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
         <h3>Difficulty filters</h3>
         <p>Filter challenges by Easy, Medium, Hard, or Expert to focus on what matches your current skill.</p>
       </div>
       <div class="feature-card">
-        <span class="feature-icon">🌙</span>
+        <span class="feature-icon"><i class="fa-solid fa-moon"></i></span>
         <h3>Dark &amp; light theme</h3>
         <p>One-click theme toggle. Your preference is remembered and shared between the landing page and app.</p>
       </div>
       <div class="feature-card">
-        <span class="feature-icon">📦</span>
+        <span class="feature-icon"><i class="fa-solid fa-box-open"></i></span>
         <h3>Works offline</h3>
         <p>Pure HTML/CSS/JS with no external requests. Open the file directly from disk — no server needed.</p>
       </div>
@@ -270,7 +273,7 @@
 
     function applyTheme(theme) {
       document.documentElement.setAttribute('data-theme', theme);
-      document.getElementById('theme-btn').textContent = theme === 'dark' ? '☀️' : '🌙';
+      document.getElementById('theme-btn').innerHTML = theme === 'dark' ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
     }
 
     function loadTheme() {
