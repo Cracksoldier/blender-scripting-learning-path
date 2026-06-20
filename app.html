@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-ls-key="blender-scripting-lp-v1">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blender Python Scripting — Learning Path</title>
+  <script>
+    try {
+      const key = document.documentElement.dataset.lsKey;
+      const s = JSON.parse(localStorage.getItem(key) || '{}');
+      if (s.theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    } catch(e) {}
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-brand">
+      <a href="index.html" class="logo" aria-label="Back to home">🐍</a>
+      <div>
+        <h1>Blender Python Scripting</h1>
+        <p class="subtitle">Beginner to Expert — bpy, bmesh, add-ons &amp; beyond</p>
+      </div>
+    </div>
+    <div class="header-center">
+      <div class="progress-group">
+        <span class="progress-label">Lessons</span>
+        <div class="progress-bar"><div class="progress-fill" id="lessons-bar" style="width:0%"></div></div>
+        <span class="progress-text" id="lessons-text">0/0</span>
+      </div>
+      <div class="progress-group">
+        <span class="progress-label">Challenges</span>
+        <div class="progress-bar progress-bar--challenge"><div class="progress-fill" id="challenges-bar" style="width:0%"></div></div>
+        <span class="progress-text" id="challenges-text">0/0</span>
+      </div>
+    </div>
+    <button class="theme-btn" id="theme-btn" aria-label="Toggle theme">☀️</button>
+  </header>
+
+  <main>
+    <div id="curriculum"></div>
+    <section class="challenges-section">
+      <div class="section-header">
+        <h2>Challenges</h2>
+        <div class="filter-btns" id="difficulty-filters"></div>
+      </div>
+      <div id="challenges-container"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <button id="export-btn">Export Progress</button>
+    <label class="import-label">Import Progress<input type="file" id="import-input" accept=".json" hidden></label>
+    <button id="reset-btn">Reset All</button>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

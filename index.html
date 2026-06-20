@@ -11,50 +11,290 @@
       if (s.theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
     } catch(e) {}
   </script>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-card: #161b22;
+      --bg-card-hover: #1c2128;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --radius: 8px;
+      --transition: 0.18s ease;
+    }
+    [data-theme="light"] {
+      --bg: #f6f8fa;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f0f3f6;
+      --border: #d0d7de;
+      --text: #1f2328;
+      --text-muted: #656d76;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; font-size: 15px; line-height: 1.6; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    .lp-nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px; height: 56px;
+      background: var(--bg-card); border-bottom: 1px solid var(--border);
+    }
+    .lp-brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.95rem; }
+    .lp-brand-icon { font-size: 1.4rem; line-height: 1; }
+    .lp-nav-actions { display: flex; align-items: center; gap: 10px; }
+    .lp-btn-ghost {
+      padding: 6px 14px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: none; color: var(--text); cursor: pointer; font-size: 0.85rem;
+      font-family: inherit; transition: border-color var(--transition), color var(--transition);
+    }
+    .lp-btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .lp-btn-primary {
+      padding: 6px 16px; border: none; border-radius: var(--radius);
+      background: var(--accent); color: #0d1117; cursor: pointer; font-size: 0.85rem;
+      font-weight: 600; font-family: inherit; text-decoration: none;
+      transition: opacity var(--transition);
+    }
+    .lp-btn-primary:hover { opacity: 0.88; text-decoration: none; }
+
+    /* ── Sections ── */
+    .lp-section { padding: 80px 24px; max-width: 900px; margin: 0 auto; }
+    .lp-section-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 10px; }
+    .lp-section-sub { color: var(--text-muted); margin-bottom: 40px; max-width: 540px; }
+
+    /* ── Hero ── */
+    .hero { text-align: center; padding: 100px 24px 80px; }
+    .hero-eyebrow { font-size: 0.8rem; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+    .hero h1 span { color: var(--accent); }
+    .hero-sub { font-size: 1.05rem; color: var(--text-muted); max-width: 520px; margin: 0 auto 36px; line-height: 1.7; }
+    .hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-hero-primary {
+      padding: 12px 28px; border: none; border-radius: var(--radius);
+      background: var(--accent); color: #0d1117; font-size: 1rem;
+      font-weight: 700; font-family: inherit; cursor: pointer; text-decoration: none;
+      transition: opacity var(--transition);
+    }
+    .btn-hero-primary:hover { opacity: 0.88; text-decoration: none; }
+    .btn-hero-secondary {
+      padding: 12px 28px; border: 1px solid var(--border); border-radius: var(--radius);
+      background: none; color: var(--text); font-size: 1rem; font-family: inherit;
+      cursor: pointer; text-decoration: none; transition: border-color var(--transition), color var(--transition);
+    }
+    .btn-hero-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* ── Stats ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; text-align: center; }
+    .stat-num { font-size: 2.2rem; font-weight: 800; color: var(--accent); line-height: 1; margin-bottom: 6px; }
+    .stat-label { font-size: 0.82rem; color: var(--text-muted); }
+
+    /* ── Level cards ── */
+    .levels-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .level-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; border-top: 3px solid var(--level-color); }
+    .level-pill { display: inline-block; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--level-color); margin-bottom: 10px; }
+    .level-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .level-meta { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 14px; }
+    .level-topics { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .level-topics li { font-size: 0.82rem; color: var(--text-muted); padding-left: 14px; position: relative; }
+    .level-topics li::before { content: '›'; position: absolute; left: 0; color: var(--level-color); }
+
+    /* ── Features ── */
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feature-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+    .feature-icon { font-size: 1.6rem; margin-bottom: 12px; display: block; }
+    .feature-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
+    .feature-card p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.55; }
+
+    /* ── CTA band ── */
+    .cta-band { background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: center; padding: 72px 24px; }
+    .cta-band h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 12px; }
+    .cta-band p { color: var(--text-muted); margin-bottom: 28px; }
+
+    /* ── Footer ── */
+    .lp-footer { text-align: center; padding: 28px 24px; font-size: 0.82rem; color: var(--text-muted); border-top: 1px solid var(--border); }
+
+    /* ── Responsive ── */
+    @media (max-width: 700px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .levels-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .lp-section { padding: 56px 16px; }
+      .hero { padding: 64px 16px 56px; }
+    }
+    @media (max-width: 400px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-brand">
-      <span class="logo">🐍</span>
-      <div>
-        <h1>Blender Python Scripting</h1>
-        <p class="subtitle">Beginner to Expert — bpy, bmesh, add-ons &amp; beyond</p>
+
+  <nav class="lp-nav">
+    <div class="lp-brand">
+      <span class="lp-brand-icon">🐍</span>
+      <span>Blender Python Scripting</span>
+    </div>
+    <div class="lp-nav-actions">
+      <button id="theme-btn" class="lp-btn-ghost" aria-label="Toggle theme">☀️</button>
+      <a href="app.html" class="lp-btn-primary">Open App →</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <p class="hero-eyebrow">🐍 Python · bpy · bmesh · Add-ons</p>
+    <h1>Master <span>Blender Python</span><br>Scripting</h1>
+    <p class="hero-sub">From your first <code>bpy.ops</code> call to shipping installable add-ons and NumPy-powered tools — a structured path from beginner to expert.</p>
+    <div class="hero-actions">
+      <a href="app.html" class="btn-hero-primary">Start Learning →</a>
+      <a href="#" class="btn-hero-secondary">★ Star on GitHub</a>
+    </div>
+  </section>
+
+  <div class="lp-section" style="padding-top: 0;">
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-num">34</div><div class="stat-label">Lessons</div></div>
+      <div class="stat-card"><div class="stat-num">16</div><div class="stat-label">Challenges</div></div>
+      <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Skill Levels</div></div>
+      <div class="stat-card"><div class="stat-num">Free</div><div class="stat-label">No login required</div></div>
+    </div>
+  </div>
+
+  <div class="lp-section">
+    <h2 class="lp-section-title">A clear path from day one to expert</h2>
+    <p class="lp-section-sub">Work through each level in order, or jump to the skill you need. Every lesson links directly to the official Blender API docs.</p>
+    <div class="levels-grid">
+      <div class="level-card" style="--level-color: #3fb950">
+        <span class="level-pill">Beginner</span>
+        <h3>Foundations</h3>
+        <p class="level-meta">9 lessons · 4 challenges</p>
+        <ul class="level-topics">
+          <li>Scripting workspace &amp; Python console</li>
+          <li>bpy module namespaces (data, context, ops)</li>
+          <li>Accessing and modifying objects</li>
+          <li>mathutils — vectors, matrices, quaternions</li>
+          <li>Looping and batch operations</li>
+        </ul>
+      </div>
+      <div class="level-card" style="--level-color: #58a6ff">
+        <span class="level-pill">Intermediate</span>
+        <h3>Tools &amp; Structure</h3>
+        <p class="level-meta">9 lessons · 4 challenges</p>
+        <ul class="level-topics">
+          <li>Writing custom operators with properties</li>
+          <li>Building N-panel UI panels</li>
+          <li>Creating meshes from scratch with bmesh</li>
+          <li>Modifiers, cameras, and lights via Python</li>
+          <li>Writing and installing your first add-on</li>
+        </ul>
+      </div>
+      <div class="level-card" style="--level-color: #d29922">
+        <span class="level-pill">Advanced</span>
+        <h3>Deep Control</h3>
+        <p class="level-meta">8 lessons · 4 challenges</p>
+        <ul class="level-topics">
+          <li>Shader node trees built from Python</li>
+          <li>Keyframes, F-Curves, and actions</li>
+          <li>Drivers and scripted expression callbacks</li>
+          <li>Geometry Nodes trees via Python</li>
+          <li>Modal operators &amp; app handlers</li>
+        </ul>
+      </div>
+      <div class="level-card" style="--level-color: #f78166">
+        <span class="level-pill">Expert</span>
+        <h3>Production &amp; Performance</h3>
+        <p class="level-meta">8 lessons · 4 challenges</p>
+        <ul class="level-topics">
+          <li>NumPy mesh data with foreach_get/set</li>
+          <li>PropertyGroup, RNA, and AddonPreferences</li>
+          <li>GPU gizmos and 3D viewport overlays</li>
+          <li>Headless rendering &amp; CLI pipelines</li>
+          <li>Packaging, testing, and distributing add-ons</li>
+        </ul>
       </div>
     </div>
-    <div class="header-center">
-      <div class="progress-group">
-        <span class="progress-label">Lessons</span>
-        <div class="progress-bar"><div class="progress-fill" id="lessons-bar" style="width:0%"></div></div>
-        <span class="progress-text" id="lessons-text">0/0</span>
+  </div>
+
+  <div class="lp-section">
+    <h2 class="lp-section-title">Everything you need to stay on track</h2>
+    <p class="lp-section-sub">A single HTML file — no install, no account, no build step. Open it and start learning.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feature-icon">✅</span>
+        <h3>Progress tracking</h3>
+        <p>Check off lessons and challenges as you complete them. Progress saves automatically to localStorage.</p>
       </div>
-      <div class="progress-group">
-        <span class="progress-label">Challenges</span>
-        <div class="progress-bar progress-bar--challenge"><div class="progress-fill" id="challenges-bar" style="width:0%"></div></div>
-        <span class="progress-text" id="challenges-text">0/0</span>
+      <div class="feature-card">
+        <span class="feature-icon">📝</span>
+        <h3>Per-lesson notes</h3>
+        <p>Add freeform notes to any lesson — links, snippets, reminders — persisted across sessions.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">💾</span>
+        <h3>Export &amp; Import</h3>
+        <p>Save your progress as a JSON file and restore it on any device — great for syncing between machines.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🔍</span>
+        <h3>Difficulty filters</h3>
+        <p>Filter challenges by Easy, Medium, Hard, or Expert to focus on what matches your current skill.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🌙</span>
+        <h3>Dark &amp; light theme</h3>
+        <p>One-click theme toggle. Your preference is remembered and shared between the landing page and app.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📦</span>
+        <h3>Works offline</h3>
+        <p>Pure HTML/CSS/JS with no external requests. Open the file directly from disk — no server needed.</p>
       </div>
     </div>
-    <button class="theme-btn" id="theme-btn" aria-label="Toggle theme">☀️</button>
-  </header>
+  </div>
 
-  <main>
-    <div id="curriculum"></div>
-    <section class="challenges-section">
-      <div class="section-header">
-        <h2>Challenges</h2>
-        <div class="filter-btns" id="difficulty-filters"></div>
-      </div>
-      <div id="challenges-container"></div>
-    </section>
-  </main>
+  <section class="cta-band">
+    <h2>Ready to write your first add-on?</h2>
+    <p>34 lessons, 16 challenges, zero setup. Just open the app and start checking boxes.</p>
+    <a href="app.html" class="btn-hero-primary">Open the Learning Path →</a>
+  </section>
 
-  <footer class="site-footer">
-    <button id="export-btn">Export Progress</button>
-    <label class="import-label">Import Progress<input type="file" id="import-input" accept=".json" hidden></label>
-    <button id="reset-btn">Reset All</button>
+  <footer class="lp-footer">
+    Blender Python Scripting Learning Path &middot; Open source &middot; <a href="app.html">Open App</a>
   </footer>
 
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script>
+    const LS_KEY = document.documentElement.dataset.lsKey;
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      document.getElementById('theme-btn').textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    function loadTheme() {
+      try {
+        const s = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+        return s.theme || 'dark';
+      } catch(e) { return 'dark'; }
+    }
+
+    function saveTheme(theme) {
+      try {
+        const s = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+        s.theme = theme;
+        localStorage.setItem(LS_KEY, JSON.stringify(s));
+      } catch(e) {}
+    }
+
+    let theme = loadTheme();
+    applyTheme(theme);
+
+    document.getElementById('theme-btn').addEventListener('click', () => {
+      theme = theme === 'dark' ? 'light' : 'dark';
+      applyTheme(theme);
+      saveTheme(theme);
+    });
+  </script>
 </body>
 </html>
