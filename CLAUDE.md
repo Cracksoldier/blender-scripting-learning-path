@@ -16,6 +16,16 @@ Two HTML entry points share one JS/CSS pair:
 - **`app.js`** — All state, rendering, and event handling. One global `state` object mutated in place; `renderAll()` does a full re-render after every state change.
 - **`style.css`** — Styles for `app.html` only. `index.html` has its own inlined styles.
 
+## Dependencies
+
+Font Awesome 6.5.2 Free is vendored under `vendor/fontawesome/` — no CDN, works fully offline. Only the two font files actually used are present:
+
+- `vendor/fontawesome/css/all.min.css`
+- `vendor/fontawesome/webfonts/fa-solid-900.woff2` — used for `.fa-solid` icons
+- `vendor/fontawesome/webfonts/fa-regular-400.woff2` — used for `.fa-regular` icons
+
+If you add a new icon, check whether it is solid (`fa-solid`) or regular (`fa-regular`) — both are covered. Brand icons (`fa-brands`) are not available (font file not downloaded). Do not switch to CDN; keep icons vendored.
+
 ## Key conventions
 
 **localStorage key** — Defined once as `data-ls-key="blender-scripting-lp-v1"` on the `<html>` element in both HTML files. Both the inline FOUC script and `app.js` read it via `document.documentElement.dataset.lsKey`. Never hardcode the string elsewhere.
