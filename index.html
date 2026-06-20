@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="dark" data-ls-key="blender-scripting-lp-v1">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blender Python Scripting — Learning Path</title>
   <script>
     try {
-      const s = JSON.parse(localStorage.getItem('blender-scripting-lp-v1') || '{}');
+      const key = document.documentElement.dataset.lsKey;
+      const s = JSON.parse(localStorage.getItem(key) || '{}');
       if (s.theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
     } catch(e) {}
   </script>

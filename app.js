@@ -1,4 +1,4 @@
-const LS_KEY = 'blender-scripting-lp-v1';
+const LS_KEY = document.documentElement.dataset.lsKey;
 
 let state = {
   version: 1,
@@ -46,6 +46,10 @@ function updateProgress() {
   document.getElementById('challenges-text').textContent = `${state.completedChallenges.size}/${allChallenges.length}`;
 }
 
+function safeUrl(url) {
+  return /^https?:\/\//i.test(url) ? url : '#';
+}
+
 function renderCurriculum() {
   const container = document.getElementById('curriculum');
   container.innerHTML = DATA.map(level => `
@@ -62,6 +66,9 @@ function renderCurriculum() {
       </div>
     </section>
   `).join('');
+  container.querySelectorAll('.notes').forEach(ta => {
+    ta.value = state.notes[ta.dataset.id] || '';
+  });
 }
 
 function renderLesson(lesson) {
@@ -78,9 +85,9 @@ function renderLesson(lesson) {
         <p>${lesson.description}</p>
         ${lesson.duration ? `<span class="duration">⏱ ${lesson.duration}</span>` : ''}
         ${lesson.concepts?.length ? `<div class="concepts">${lesson.concepts.map(c => `<span class="concept-tag">${c}</span>`).join('')}</div>` : ''}
-        ${lesson.resources?.length ? `<div class="resources">${lesson.resources.map(r => `<a href="${r.url}" target="_blank" rel="noopener noreferrer">${r.label}</a>`).join('')}</div>` : ''}
+        ${lesson.resources?.length ? `<div class="resources">${lesson.resources.map(r => `<a href="${safeUrl(r.url)}" target="_blank" rel="noopener noreferrer">${r.label}</a>`).join('')}</div>` : ''}
         ${hasNote
-          ? `<textarea class="notes" data-id="${lesson.id}" placeholder="Your notes...">${state.notes[lesson.id]}</textarea>`
+          ? `<textarea class="notes" data-id="${lesson.id}" placeholder="Your notes..."></textarea>`
           : `<button class="add-notes-btn" data-id="${lesson.id}">+ Add notes</button>`
         }
       </div>
@@ -154,9 +161,12 @@ document.addEventListener('click', e => {
     renderAll();
   }
   if (e.target.classList.contains('add-notes-btn')) {
-    state.notes[e.target.dataset.id] = '';
+    const id = e.target.dataset.id;
+    state.notes[id] = '';
     saveState();
     renderAll();
+    const ta = document.querySelector(`.notes[data-id="${id}"]`);
+    if (ta) ta.focus();
   }
 });
 
@@ -181,7 +191,7 @@ document.getElementById('export-btn').addEventListener('click', () => {
   a.href = url;
   a.download = 'blender-scripting-progress.json';
   a.click();
-  URL.revokeObjectURL(url);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 });
 
 document.getElementById('import-input').addEventListener('change', e => {
@@ -192,12 +202,20 @@ document.getElementById('import-input').addEventListener('change', e => {
     try {
       const data = JSON.parse(ev.target.result);
       if (!Array.isArray(data.completedLessons)) throw new Error('Invalid format');
+      const knownLessons = new Set(DATA.flatMap(l => l.lessons).map(l => l.id));
+      const knownChallenges = new Set(DATA.flatMap(l => l.challenges).map(c => c.id));
+      data.completedLessons = data.completedLessons.filter(id => knownLessons.has(id));
+      data.completedChallenges = Array.isArray(data.completedChallenges)
+        ? data.completedChallenges.filter(id => knownChallenges.has(id))
+        : [];
       hydrateState(data);
+      state.activeFilters = new Set();
       saveState();
       document.documentElement.setAttribute('data-theme', state.theme);
       document.getElementById('theme-btn').textContent = state.theme === 'dark' ? '☀️' : '🌙';
       renderAll();
     } catch(err) { alert('Invalid progress file: ' + err.message); }
+    finally { e.target.value = ''; }
   };
   reader.readAsText(file);
 });
@@ -207,6 +225,7 @@ document.getElementById('reset-btn').addEventListener('click', () => {
   state.completedLessons = new Set();
   state.completedChallenges = new Set();
   state.notes = {};
+  state.activeFilters = new Set();
   saveState();
   renderAll();
 });
