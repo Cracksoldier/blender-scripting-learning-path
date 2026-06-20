@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <title>Blender Python Scripting — Learning Path</title>
   <script>
     try {
@@ -148,7 +149,7 @@
     <h1>Master <span>Blender Python</span><br>Scripting</h1>
     <p class="hero-sub">From your first <code>bpy.ops</code> call to shipping installable add-ons and NumPy-powered tools — a structured path from beginner to expert.</p>
     <div class="hero-actions">
-      <a href="app.html" class="btn-hero-primary">Start Learning →</a>
+      <a href="app.html" class="btn-hero-primary" id="start-btn">Start Learning →</a>
       <a href="#" class="btn-hero-secondary">★ Star on GitHub</a>
     </div>
   </section>
@@ -286,6 +287,13 @@
         localStorage.setItem(LS_KEY, JSON.stringify(s));
       } catch(e) {}
     }
+
+    try {
+      const s = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+      const hasProgress = (s.completedLessons && s.completedLessons.length > 0) ||
+                          (s.completedChallenges && s.completedChallenges.length > 0);
+      if (hasProgress) document.getElementById('start-btn').textContent = 'Continue Learning →';
+    } catch(e) {}
 
     let theme = loadTheme();
     applyTheme(theme);
